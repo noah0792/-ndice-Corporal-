@@ -1,0 +1,221 @@
+<html lang="es" style="--accent: #007AFF;"><head><style>* { -webkit-text-size-adjust: 86.33333333333333% !important; }</style><style>
+@font-face {
+  font-family: "Optimistic";
+  font-style: normal;
+  font-weight: 400 600;
+  font-display: swap;
+  src: url("/fonts/OptimisticAI_VF_Optimized.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Optimistic Mono";
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("/fonts/OptimisticMono_W_TextRegular.woff2") format("woff2");
+}
+:where(html) {
+  font-family: "Optimistic", system-ui, sans-serif;
+}
+:where(code, pre, kbd, samp) {
+  font-family: "Optimistic Mono", ui-monospace, monospace;
+}
+</style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calculadora IMC Pro</title>
+<style>
+:root{--accent:#007AFF;--bg:#F2F2F7;--card:#FFFFFF;--text:#000000;--muted:#6B7280;--border:#E5E5EA;--input:#F2F2F7}
+[data-theme="dark"]{--bg:#000000;--card:#1C1C1E;--text:#FFFFFF;--muted:#A1A1AA;--border:#2C2C2E;--input:#2C2C2E}
+*{box-sizing:border-box}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);padding-bottom:40px}
+body.font-rounded{font-family:ui-rounded,"SF Pro Rounded","Arial Rounded MT Bold",system-ui,sans-serif}
+body.font-serif{font-family:Georgia,"Times New Roman",serif}
+body.font-mono{font-family:ui-monospace,"SF Mono",Menlo,monospace}
+header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+[data-theme="dark"] header{background:rgba(0,0,0,.7)}
+.top{max-width:720px;margin:0 auto;padding:14px 16px;display:flex;align-items:center;justify-content:space-between}
+.logo{display:flex;gap:12px;align-items:center}
+.badge{width:44px;height:44px;border-radius:14px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800}
+.top h1{font-size:20px;margin:0;line-height:1.1}
+.top p{margin:2px 0 0;color:var(--muted);font-size:13px}
+.iconbtn{border:1px solid var(--border);background:var(--card);color:var(--text);border-radius:999px;padding:9px 14px;font-size:14px;cursor:pointer}
+main{max-width:720px;margin:0 auto;padding:16px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:18px;margin-bottom:16px;box-shadow:0 8px 24px rgba(0,0,0,.06)}
+.card h2{margin:0 0 6px;font-size:18px}
+.card p.sub{margin:0 0 14px;color:var(--muted);font-size:14px;line-height:1.5}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:560px){.grid{grid-template-columns:1fr}}
+label{font-size:13px;font-weight:600;color:var(--muted);display:block;margin-bottom:6px}
+input,select{width:100%;padding:12px 13px;border:1px solid var(--border);border-radius:14px;background:var(--input);color:var(--text);font-size:16px;outline:none}
+input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(0,122,255,.15)}
+.segment{display:flex;background:var(--input);padding:4px;border-radius:12px;gap:4px}
+.segment button{flex:1;border:0;background:transparent;color:var(--muted);padding:9px;border-radius:9px;font-weight:600;cursor:pointer}
+.segment button.active{background:var(--card);color:var(--text);box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.btn{width:100%;border:0;background:var(--accent);color:#fff;padding:15px;border-radius:16px;font-size:17px;font-weight:700;cursor:pointer;margin-top:14px}
+.btn.secondary{background:var(--input);color:var(--text)}
+.hidden{display:none!important}
+.result-top{text-align:center;padding:10px 0 14px}
+.big{font-size:56px;font-weight:800;line-height:1}
+.pill{display:inline-block;padding:6px 12px;border-radius:999px;font-weight:700;font-size:14px;margin-top:8px}
+.pill.green{background:#D1FADF;color:#067647}
+.pill.yellow{background:#FEF0C7;color:#93370D}
+.pill.orange{background:#FEE4E2;color:#B54708}
+.pill.red{background:#FEE4E2;color:#B42318}
+.pill.blue{background:#D1E9FF;color:#175CD3}
+.bar{height:12px;border-radius:999px;overflow:hidden;display:flex;margin:14px 0 6px}
+.bar div{height:100%}
+.bar .a{width:18.5%;background:#2E90FA}
+.bar .b{width:6.4%;background:#12B76A}
+.bar .c{width:5%;background:#F79009}
+.bar .d{width:70.1%;background:#F04438}
+.marker{position:relative;height:0}
+.marker span{position:absolute;top:-22px;width:14px;height:14px;border-radius:50%;background:var(--text);border:2px solid var(--card);transform:translateX(-50%)}
+.legend{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
+.kpis{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:14px}
+@media(max-width:560px){.kpis{grid-template-columns:1fr}}
+.kpi{background:var(--input);border-radius:16px;padding:12px}
+.kpi small{color:var(--muted);font-size:12px}
+.kpi strong{display:block;font-size:18px;margin:4px 0}
+.kpi p{margin:0;color:var(--muted);font-size:13px;line-height:1.4}
+.row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border);font-size:14px}
+.small{font-size:13px;color:var(--muted);line-height:1.5}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:flex-end;justify-content:center;z-index:50}
+.sheetbox{width:100%;max-width:720px;background:var(--card);border-radius:24px 24px 0 0;padding:18px;max-height:88vh;overflow:auto}
+.handle{width:44px;height:5px;border-radius:999px;background:var(--border);margin:0 auto 14px}
+.swatches{display:flex;gap:10px;flex-wrap:wrap}
+.swatch{width:38px;height:38px;border-radius:50%;border:3px solid transparent;cursor:pointer}
+.swatch.active{border-color:var(--text)}
+.toggle{display:flex;justify-content:space-between;align-items:center;padding:10px 0}
+.switch{width:52px;height:32px;border-radius:999px;background:#E5E5EA;position:relative;cursor:pointer}
+.switch.on{background:var(--accent)}
+.switch i{position:absolute;top:2px;left:2px;width:28px;height:28px;border-radius:50%;background:#fff;transition:.2s}
+.switch.on i{left:22px}
+.history-item{padding:12px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;gap:10px}
+</style>
+</head>
+<body data-theme="light" class="font-system">
+<header><div class="top"><div class="logo"><div class="badge">IMC</div><div><h1>Calculadora IMC Pro</h1><p>Tu peso, con contexto profesional</p></div></div><button class="iconbtn" onclick="toggleSheet(true)">Ajustes</button></div></header>
+<main>
+<section class="card"><h2>Tus datos</h2><p class="sub">Escribe tus datos reales. Los campos avanzados son opcionales, pero mejoran la estimación.</p>
+<div class="grid">
+<div><label id="pesoLabel">Peso en kilogramos</label><input id="peso" type="number" inputmode="decimal" placeholder="Ej. 72.5"></div>
+<div><label id="estaturaLabel">Estatura en centímetros</label><input id="estatura" type="number" inputmode="decimal" placeholder="Ej. 172"></div>
+<div><label>Edad en años</label><input id="edad" type="number" inputmode="numeric" placeholder="Ej. 28"></div>
+<div><label>Sexo</label><div class="segment" id="sexoSeg"><button data-v="mujer" onclick="setSeg(this,'sexo')">Mujer</button><button data-v="hombre" onclick="setSeg(this,'sexo')">Hombre</button><button data-v="" class="active" onclick="setSeg(this,'sexo')">Prefiero no decir</button></div></div>
+</div>
+<div id="avanzados" style="margin-top:14px"><div class="grid">
+<div><label>Cintura en cm (opcional)</label><input id="cintura" type="number" placeholder="Ej. 88"></div>
+<div><label>Cadera en cm (opcional)</label><input id="cadera" type="number" placeholder="Ej. 102"></div>
+<div><label>Cuello en cm (opcional)</label><input id="cuello" type="number" placeholder="Ej. 36"></div>
+<div><label>Nivel de actividad</label><select id="actividad"><option value="1.2">Sedentario</option><option value="1.375">Ligero</option><option value="1.55" selected="">Moderado</option><option value="1.725">Activo</option><option value="1.9">Muy activo</option></select></div>
+</div></div>
+<button class="btn" onclick="calcular()">Calcular mi IMC</button>
+<button class="btn secondary" onclick="limpiar()">Limpiar</button>
+<p class="small" style="margin-top:12px">Herramienta informativa. No es un diagnóstico. Si tienes menos de 18 años, el IMC se interpreta con percentiles y conviene consultar a un profesional de salud.</p>
+</section>
+<section id="resultado" class="card hidden"><h2>Tu resultado</h2><p class="sub" id="fechaRes"></p>
+<div class="result-top"><div class="big" id="imcVal">0.0</div><div style="color:var(--muted)">Índice de masa corporal</div><div id="catPill" class="pill green">Peso normal</div></div>
+<div class="marker"><span id="markerDot" style="left:30%"></span></div>
+<div class="bar"><div class="a"></div><div class="b"></div><div class="c"></div><div class="d"></div></div>
+<div class="legend"><span>Bajo</span><span>Normal</span><span>Sobrepeso</span><span>Obesidad</span></div>
+<div class="kpis">
+<div class="kpi"><small>Rango de peso normal</small><strong id="rangoPeso">-</strong><p>Para tu estatura, según el IMC de 18.5 a 24.9.</p></div>
+<div class="kpi"><small>Relación cintura estatura</small><strong id="whtr">-</strong><p id="whtrTxt">Agrega cintura para calcularlo.</p></div>
+<div class="kpi"><small>Relación cintura cadera</small><strong id="whr">-</strong><p id="whrTxt">Agrega cintura y cadera para calcularlo.</p></div>
+<div class="kpi"><small>Grasa corporal estimada</small><strong id="grasa">-</strong><p>Método de la Marina de Estados Unidos, es una estimación.</p></div>
+<div class="kpi"><small>Metabolismo basal</small><strong id="bmr">-</strong><p>Fórmula de Mifflin St Jeor, calorías en reposo.</p></div>
+<div class="kpi"><small>Gasto total estimado</small><strong id="tdee">-</strong><p>Metabolismo basal por tu nivel de actividad.</p></div>
+</div>
+<p class="small" style="margin-top:12px" id="consejo"></p>
+</section>
+<section class="card"><h2>Historial</h2><p class="sub">Tus últimos cálculos guardados en este navegador.</p><div id="listaHistorial"><p class="small">Aún no hay cálculos. Haz tu primer cálculo arriba.</p></div><button class="btn secondary" onclick="borrarHistorial()">Borrar historial</button></section>
+<section class="card"><h2>Qué significa el IMC</h2><p class="small">El IMC es tu peso dividido entre tu estatura al cuadrado. Es útil para estimar sobrepeso en adultos, pero no distingue músculo de grasa. Por eso aquí lo complementamos con cintura, cadera y actividad. Si buscas cambiar tu peso, lo ideal es hacerlo con acompañamiento profesional y con metas graduales.</p></section>
+</main>
+<div id="sheet" class="sheet hidden" onclick="if(event.target===this) toggleSheet(false)"><div class="sheetbox"><div class="handle"></div><h2 style="margin:0">Ajustes</h2><p class="small">Personaliza la app a tu gusto. Los cambios se guardan automáticamente.</p>
+<label style="margin-top:14px">Tema</label><div class="segment" id="temaSeg"><button data-v="light" onclick="setTema(this)" class="active">Claro</button><button data-v="dark" onclick="setTema(this)">Oscuro</button><button data-v="auto" onclick="setTema(this)">Automático</button></div>
+<label style="margin-top:14px">Color de acento</label><div class="swatches" id="colores"><div class="swatch active" data-c="#007AFF" title="Azul" style="background: rgb(0, 122, 255);"></div><div class="swatch" data-c="#12B76A" title="Verde" style="background: rgb(18, 183, 106);"></div><div class="swatch" data-c="#6941C6" title="Morado" style="background: rgb(105, 65, 198);"></div><div class="swatch" data-c="#F79009" title="Naranja" style="background: rgb(247, 144, 9);"></div><div class="swatch" data-c="#EC4899" title="Rosa" style="background: rgb(236, 72, 153);"></div><div class="swatch" data-c="#111111" title="Negro" style="background: rgb(17, 17, 17);"></div></div>
+<label style="margin-top:14px">Tipo de letra</label><div class="segment" id="fuenteSeg"><button data-v="font-system" onclick="setFuente(this)" class="active">Sistema</button><button data-v="font-rounded" onclick="setFuente(this)">Redondeada</button><button data-v="font-serif" onclick="setFuente(this)">Serif</button><button data-v="font-mono" onclick="setFuente(this)">Mono</button></div>
+<label style="margin-top:14px">Unidades</label><div class="segment" id="unidadSeg"><button data-v="metric" onclick="setUnidad(this)" class="active">Métrico</button><button data-v="imperial" onclick="setUnidad(this)">Imperial</button></div>
+<div class="toggle"><span>Mostrar parámetros avanzados</span><div class="switch on" id="swAvanzados" onclick="toggleSwitch(this,'avanzados')"><i></i></div></div>
+<div class="toggle"><span>Guardar historial</span><div class="switch on" id="swHistorial" onclick="toggleSwitch(this,'historial')"><i></i></div></div>
+<button class="btn" onclick="toggleSheet(false)">Listo</button>
+</div></div>
+<script>
+let sexo=''; let unidad='metric'; let settings=JSON.parse(localStorage.getItem('imc_settings')||'{}');
+let historial=JSON.parse(localStorage.getItem('imc_history')||'[]');
+const colores=[['Azul','#007AFF'],['Verde','#12B76A'],['Morado','#6941C6'],['Naranja','#F79009'],['Rosa','#EC4899'],['Negro','#111111']];
+function setSeg(btn,tipo){ [...btn.parentElement.children].forEach(b=>b.classList.remove('active')); btn.classList.add('active'); if(tipo==='sexo') sexo=btn.dataset.v; }
+function aplicarSettings(){ if(settings.tema) setTemaByVal(settings.tema); if(settings.color) setColor(settings.color); if(settings.fuente) setFuenteByVal(settings.fuente); if(settings.unidad) setUnidadByVal(settings.unidad); if(settings.avanzados===false){ document.getElementById('swAvanzados').classList.remove('on'); document.getElementById('avanzados').style.display='none'; } if(settings.historial===false){ document.getElementById('swHistorial').classList.remove('on'); } }
+function guardarSettings(){ localStorage.setItem('imc_settings', JSON.stringify(settings)); }
+function toggleSheet(show){ document.getElementById('sheet').classList.toggle('hidden', !show); }
+function setTema(btn){ setTemaByVal(btn.dataset.v); }
+function setTemaByVal(v){ settings.tema=v; guardarSettings(); let real=v; if(v==='auto'){ real=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; } document.body.dataset.theme=real; document.querySelectorAll('#temaSeg button').forEach(b=>b.classList.toggle('active', b.dataset.v===v)); }
+function setFuente(btn){ setFuenteByVal(btn.dataset.v); }
+function setFuenteByVal(v){ settings.fuente=v; guardarSettings(); document.body.classList.remove('font-system','font-rounded','font-serif','font-mono'); document.body.classList.add(v); document.querySelectorAll('#fuenteSeg button').forEach(b=>b.classList.toggle('active', b.dataset.v===v)); }
+function setUnidad(btn){ setUnidadByVal(btn.dataset.v); }
+function setUnidadByVal(v){ unidad=v; settings.unidad=v; guardarSettings(); document.querySelectorAll('#unidadSeg button').forEach(b=>b.classList.toggle('active', b.dataset.v===v)); document.getElementById('pesoLabel').textContent = v==='metric' ? 'Peso en kilogramos' : 'Peso en libras'; document.getElementById('estaturaLabel').textContent = v==='metric' ? 'Estatura en centímetros' : 'Estatura en pulgadas'; }
+function setColor(hex){ settings.color=hex; guardarSettings(); document.documentElement.style.setProperty('--accent', hex); document.querySelectorAll('.swatch').forEach(s=>s.classList.toggle('active', s.dataset.c===hex)); }
+function buildColores(){ const wrap=document.getElementById('colores'); colores.forEach(([nombre,hex])=>{ const d=document.createElement('div'); d.className='swatch'; d.dataset.c=hex; d.title=nombre; d.style.background=hex; d.onclick=()=>setColor(hex); wrap.appendChild(d); }); }
+function toggleSwitch(el,tipo){ el.classList.toggle('on'); const on=el.classList.contains('on'); if(tipo==='avanzados'){ settings.avanzados=on; document.getElementById('avanzados').style.display=on?'block':'none'; } if(tipo==='historial'){ settings.historial=on; } guardarSettings(); }
+function limpiar(){ ['peso','estatura','edad','cintura','cadera','cuello'].forEach(id=>document.getElementById(id).value=''); document.getElementById('resultado').classList.add('hidden'); }
+function calcular(){
+  let pesoRaw=parseFloat(document.getElementById('peso').value);
+  let estRaw=parseFloat(document.getElementById('estatura').value);
+  let edad=parseFloat(document.getElementById('edad').value);
+  if(!pesoRaw || !estRaw){ alert('Escribe tu peso y tu estatura para calcular.'); return; }
+  let pesoKg = unidad==='metric' ? pesoRaw : pesoRaw*0.453592;
+  let estCm = unidad==='metric' ? estRaw : estRaw*2.54;
+  let estM = estCm/100;
+  let imc = pesoKg/(estM*estM);
+  let cat='', cls='green', consejo='';
+  if(imc<18.5){ cat='Bajo peso'; cls='blue'; consejo='Tu IMC está por debajo del rango normal. Si buscas subir de peso de forma saludable, conviene hacerlo con acompañamiento profesional.'; }
+  else if(imc<25){ cat='Peso normal'; cls='green'; consejo='Tu IMC está en el rango normal. Mantener hábitos constantes suele ser la mejor estrategia.'; }
+  else if(imc<30){ cat='Sobrepeso'; cls='orange'; consejo='Tu IMC está en rango de sobrepeso. Un cambio gradual en alimentación y movimiento, con apoyo profesional, suele funcionar mejor que un cambio brusco.'; }
+  else { cat='Obesidad'; cls='red'; consejo='Tu IMC está en rango de obesidad. Vale la pena conversar con un profesional de salud para un plan seguro y personalizado.'; }
+  let bajo=18.5*estM*estM, alto=24.9*estM*estM;
+  let pesoTxt = unidad==='metric' ? bajo.toFixed(1)+' a '+alto.toFixed(1)+' kg' : (bajo/0.453592).toFixed(1)+' a '+(alto/0.453592).toFixed(1)+' lb';
+  let cintura=parseFloat(document.getElementById('cintura').value)||0;
+  let cadera=parseFloat(document.getElementById('cadera').value)||0;
+  let cuello=parseFloat(document.getElementById('cuello').value)||0;
+  if(unidad==='imperial'){ cintura=cintura*2.54; cadera=cadera*2.54; cuello=cuello*2.54; }
+  let whtrTxt='Agrega cintura para calcularlo.', whrTxt='Agrega cintura y cadera para calcularlo.';
+  let whtrVal='-', whrVal='-', grasaVal='-';
+  if(cintura>0){ let whtr=cintura/estCm; whtrVal=whtr.toFixed(2); whtrTxt = whtr<0.5 ? 'Por debajo de 0.5, rango de referencia habitual.' : 'Por encima de 0.5, conviene revisarlo con un profesional.'; }
+  if(cintura>0 && cadera>0){ let whr=cintura/cadera; whrVal=whr.toFixed(2); whrTxt='Valor de referencia, varía según sexo y contexto.'; }
+  if(cintura>0 && cuello>0 && estCm>0){
+    try{
+      let grasa=0;
+      if(sexo==='hombre'){ grasa=495/(1.0324 - 0.19077*Math.log10(cintura-cuello) + 0.15456*Math.log10(estCm)) - 450; }
+      else if(sexo==='mujer'){ grasa=495/(1.29579 - 0.35004*Math.log10(cintura+cadera-cuello) + 0.22100*Math.log10(estCm)) - 450; }
+      else { grasa=495/(1.0324 - 0.19077*Math.log10(Math.max(1,cintura-cuello)) + 0.15456*Math.log10(estCm)) - 450; }
+      if(isFinite(grasa) && grasa>0 && grasa<60) grasaVal=grasa.toFixed(1)+' %';
+    }catch(e){}
+  }
+  let bmrVal='-', tdeeVal='-';
+  if(edad>0){ let adj = sexo==='hombre' ? 5 : sexo==='mujer' ? -161 : -78; let bmr=10*pesoKg + 6.25*estCm -5*edad + adj; let act=parseFloat(document.getElementById('actividad').value); bmrVal=Math.round(bmr)+' kcal'; tdeeVal=Math.round(bmr*act)+' kcal'; }
+  document.getElementById('resultado').classList.remove('hidden');
+  document.getElementById('imcVal').textContent=imc.toFixed(1);
+  let pill=document.getElementById('catPill'); pill.textContent=cat; pill.className='pill '+cls;
+  document.getElementById('rangoPeso').textContent=pesoTxt;
+  document.getElementById('whtr').textContent=whtrVal; document.getElementById('whtrTxt').textContent=whtrTxt;
+  document.getElementById('whr').textContent=whrVal; document.getElementById('whrTxt').textContent=whrTxt;
+  document.getElementById('grasa').textContent=grasaVal;
+  document.getElementById('bmr').textContent=bmrVal;
+  document.getElementById('tdee').textContent=tdeeVal;
+  document.getElementById('consejo').textContent=consejo;
+  document.getElementById('fechaRes').textContent='Calculado el '+new Date().toLocaleDateString('es-ES',{day:'numeric',month:'long',year:'numeric'});
+  let pct=Math.min(100, Math.max(0, (imc/45)*100)); document.getElementById('markerDot').style.left=pct+'%';
+  if(settings.historial!==false){ historial.unshift({fecha:new Date().toISOString().slice(0,10), imc:imc.toFixed(1), cat}); historial=historial.slice(0,20); localStorage.setItem('imc_history', JSON.stringify(historial)); renderHistorial(); }
+  document.getElementById('resultado').scrollIntoView({behavior:'smooth'});
+}
+function renderHistorial(){ const wrap=document.getElementById('listaHistorial'); wrap.innerHTML=''; if(historial.length===0){ wrap.innerHTML='<p class="small">Aún no hay cálculos. Haz tu primer cálculo arriba.</p>'; return; } historial.forEach(h=>{ const d=document.createElement('div'); d.className='history-item'; d.innerHTML='<div><b>IMC '+h.imc+'</b><div class="small">'+h.cat+' · '+h.fecha+'</div></div>'; wrap.appendChild(d); }); }
+function borrarHistorial(){ historial=[]; localStorage.removeItem('imc_history'); renderHistorial(); }
+buildColores(); aplicarSettings(); renderHistorial();
+if(!settings.color) setColor('#007AFF'); else setColor(settings.color);
+if(!settings.tema) setTemaByVal('light');
+if(!settings.fuente) setFuenteByVal('font-system');
+if(!settings.unidad) setUnidadByVal('metric');
+</script>
+<script>(function(){var loc=location.href.replace(/#.*$/,"");var ATTR_NAMES=["data-product-id","data-productid","data-product_id","product-id","productid","product_id","data-source-entity-id","source-entity-id","source_entity_id","data-product","data-metadata","data-meta"];var DATASET_KEYS=["productId","productid","product_id","sourceEntityId","sourceentityid","source_entity_id","product","metadata","meta"];function readProductId(value){if(typeof value!=="string"||value.length===0)return null;if(/^[0-9]{6,}$/.test(value))return value;var match=value.match(/(?:product(?:_|-)?id|source(?:_|-)?entity(?:_|-)?id)["'=:\s]+([0-9]{6,})/i);return match?match[1]:null}function extractProductId(start){for(var node=start;node&&node!==document.body;node=node.parentElement){for(var i=0;i<ATTR_NAMES.length;i++){var attrValue=node.getAttribute&&node.getAttribute(ATTR_NAMES[i]);var attrProductId=readProductId(attrValue);if(attrProductId)return attrProductId}var dataset=node.dataset||null;if(dataset){for(var j=0;j<DATASET_KEYS.length;j++){var dataValue=dataset[DATASET_KEYS[j]];var dataProductId=readProductId(dataValue);if(dataProductId)return dataProductId}}}return null}function isInlineMediaSlotElement(node){return !!(node&&node.getAttribute&&node.getAttribute("data-clippy-inline-media-slot")!==null)}function findInlineMediaSlot(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(isInlineMediaSlotElement(node))return node}return null}function readInlineMediaUrl(node){if(!node)return null;return node.getAttribute&&((node.getAttribute("data-clippy-inline-media-url")||node.getAttribute("data-url")||node.getAttribute("data_url")))||node.href||null}function stripHash(url){return String(url).replace(/#.*$/,"")}function urlsMatch(a,b){if(!a||!b)return false;try{return stripHash(new URL(a,loc).href)===stripHash(new URL(b,loc).href)}catch(_){return stripHash(a)===stripHash(b)}}function isFirstPartyReelUrl(value){try{var url=new URL(value,loc);if(url.protocol!=="https:")return false;var host=url.hostname.toLowerCase();var supported=host==="instagram.com"||host.endsWith(".instagram.com")||host==="facebook.com"||host.endsWith(".facebook.com");return supported&&/\/reels?\//i.test(url.pathname)}catch(_){return false}}function isInlineMediaUrlClick(node,href){var slot=findInlineMediaSlot(node);if(!slot)return false;var slotUrl=readInlineMediaUrl(slot);if(slotUrl)return urlsMatch(href,slotUrl);return isFirstPartyReelUrl(href)}function findDataHref(start){for(var node=start;node&&node!==document.body;node=node.parentElement){if(node.getAttribute){var href=node.getAttribute("data-href")||node.getAttribute("data-url");if(href)return{href:href,node:node}}}return null}var nativeOpen=window.open;window.open=function(url){if(parent!==window&&typeof url==="string"&&/^https?:\/\//.test(url)){parent.postMessage({type:"ecto:usercontent-link-click",href:url},"*");return null}return nativeOpen?nativeOpen.apply(window,arguments):null};document.addEventListener("click",function(e){var target=e.target instanceof Element?e.target:null;if(!target)return;if(parent===window)return;var a=target.closest?target.closest("a[href]"):null;if(a&&a.href&&/^https?:\/\//.test(a.href)&&a.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(a,a.href))return;var productId=extractProductId(target)||extractProductId(a);if(productId){e.preventDefault();parent.postMessage({type:"ecto-artifact-link-click",productId:productId},"*");return}e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:a.href},"*");return}var dataHref=findDataHref(target);if(dataHref&&/^https?:\/\//.test(dataHref.href)&&dataHref.href.replace(/#.*$/,"")!==loc){if(isInlineMediaUrlClick(dataHref.node,dataHref.href))return;e.preventDefault();parent.postMessage({type:"ecto:usercontent-link-click",href:dataHref.href},"*")}},true)})();</script><script>(function(){var FOCUS_TYPE="ecto:artifact-focus-request";var CLOSE_TYPE="ecto:artifact-close-request";function focusArtifactDocument(){var body=document.body;if(!body)return;try{window.focus();}catch(e){}if(!body.hasAttribute("tabindex"))body.setAttribute("tabindex","-1");try{body.focus({preventScroll:true});}catch(e){try{body.focus();}catch(e2){}}}window.addEventListener("message",function(event){if(event.source!==window.parent)return;var data=event.data;if(!data||typeof data!=="object"||data.type!==FOCUS_TYPE)return;if(document.readyState==="loading"){document.addEventListener("DOMContentLoaded",focusArtifactDocument,{once:true});return;}focusArtifactDocument();});window.addEventListener("keydown",function(event){if(event.key!=="Escape")return;window.setTimeout(function(){if(event.defaultPrevented)return;window.parent.postMessage({type:CLOSE_TYPE},"*");},0);});})();</script>
+
+</body></html>
